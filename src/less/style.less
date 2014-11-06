@@ -156,16 +156,43 @@ header[octo-curtain] {
 }
 
 
-
 .page-content {
-	overflow: hidden;
-	position: relative;
-	& > [octo-sidebar] {
-		width: 250px;
-		height: 400px;
-		position: absolute;
-		right: 100%;
-		background-color: red;
+	&.open {
+		& > div {
+			overflow: auto;
+			height: 100%;
+		}
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		transform: translate3D(250px, 0, 0);
 	}
-
+	background: #fff;
+	transition: transform 150ms cubic-bezier(.2, .3, .25, .9);
+	transition-duration: 250ms;
+}
+a {
+	&.nav-link {
+		position: fixed;
+		top: 10px;
+		left: 10px;
+		z-index: 2;
+		color: #fff;
+	}
+}
+[octo-sidebar] {
+	width: 250px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	z-index: -1;
+	background-color: red;
+	& > div {
+		height: 100%;
+		overflow: auto;
+	}
+	li {
+		font-size: 26px;
+	}
 }

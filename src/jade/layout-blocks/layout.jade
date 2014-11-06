@@ -9,13 +9,33 @@ head
 	//- link( href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css",  rel="stylesheet")
 	link(rel="stylesheet", href="css/style.css")
 body
-	.page-content
-		nav(octo-sidebar)
+	nav(octo-sidebar)
+		div
 			ul
 				li eger
 				li ergerg
 				li fghfgh
 				li acs
-		include header
-		block content
-		include footer
+				li eger
+				li ergerg
+				li fghfgh
+				li acs
+				li eger
+				li ergerg
+				li fghfgh
+				li acs
+				li eger
+				li ergerg
+				li fghfgh
+				li acs
+	.page-content
+		a.nav-link J
+		div
+			include header
+			block content
+			include footer
+	script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+	script.
+		$('.nav-link, .md-nav').on('click', function (event) {
+			$('.page-content').toggleClass('open');
+		})
