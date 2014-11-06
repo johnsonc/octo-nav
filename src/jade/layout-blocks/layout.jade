@@ -5,37 +5,53 @@ head
 	title octo-sidebar
 	meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0")
 	meta(name="description", content="octo-sidebar; a project for pure CSS sidebar navigation")
-	//- link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css", rel="stylesheet")
-	//- link( href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css",  rel="stylesheet")
 	link(rel="stylesheet", href="css/style.css")
-body
-	nav(octo-sidebar)
-		div
+	link(rel="stylesheet", href="css/octo-nav.css")
+body(octo-nav)
+	nav(octo-nav-navigation, octo-nav-panel)
+		div(octo-nav-scrollable)
 			ul
-				li eger
-				li ergerg
-				li fghfgh
-				li acs
-				li eger
-				li ergerg
-				li fghfgh
-				li acs
-				li eger
-				li ergerg
-				li fghfgh
-				li acs
-				li eger
-				li ergerg
-				li fghfgh
-				li acs
-	.page-content
-		a.nav-link J
-		div
+				li
+					a(octo-nav-link, href="#about") About
+				li
+					a(octo-nav-link, href="#projects") Projects
+				li
+					a(octo-nav-link, href="#thoughts") Thoughts
+				li
+					a(octo-nav-link, href="#contact") Contact
+				li(octo-nav-header) External Links
+				li
+					a(octo-nav-link, href="http://medium.com/@_jh3y") Blog 
+	.page-content(octo-nav-page-content, octo-nav-panel)
+		a.nav-link(octo-nav-control) J
+		div(octo-nav-scrollable)
 			include header
 			block content
 			include footer
 	script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js")
 	script.
-		$('.nav-link, .md-nav').on('click', function (event) {
-			$('.page-content').toggleClass('open');
-		})
+		var $octoNav = $('[octo-nav]'),
+			$octoNavPageContent = $('[octo-nav-page-content]'),
+			$octoNavControl = $('[octo-nav-control]'),
+			$octoNavNavigation = $('[octo-nav-navigation]');
+		$octoNavNavigation.on('click', function(event) {
+			$target = $(event.target);
+			if ($target.attr('octo-nav-link') !== undefined) {
+				var hash = $target[0].hash;
+				if(hash !== undefined && hash.indexOf('#') === 0) {
+					event.preventDefault();
+					$octoNavPageContent.find('[octo-nav-scrollable]')
+						.stop(true, true)
+						.animate({
+							scrollTop: $(hash).offset().top + $(hash).parent().scrollTop()
+						}, 500);
+				}
+			}
+		});
+		$octoNavPageContent.on('click', function(event) {
+			if ($octoNavPageContent.hasClass('show-nav') && $(event.target).attr('octo-nav-control') === undefined) {
+				$octoNavPageContent.removeClass('show-nav');
+			} else if ($(event.target).attr('octo-nav-control') !== undefined) {
+				$octoNavPageContent.toggleClass('show-nav');
+			}
+		});

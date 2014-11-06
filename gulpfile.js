@@ -9,7 +9,6 @@ var gulp = require('gulp'),
 		jade: 'src/jade/**/*.jade',
 		docs: "src/jade/*.jade",
 		less: "src/less/**/*.less",
-		style: "src/less/style.less",
 		overwatch: "./out/**/*.*"
 	},
 	destinations = {
@@ -34,7 +33,7 @@ gulp.task('serve', function(event) {
 });
 /*LESS TASK*/
 gulp.task('less:compile', function(event) {
-	return gulp.src(sources.style)
+	return gulp.src(sources.less)
 		.pipe(plumber())
 		.pipe(less())
 		.pipe(prefix([

@@ -1,0 +1,35 @@
+[octo-nav] {
+  [octo-nav-control] {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    color: #fff;
+  }
+  & > [octo-nav-navigation] {
+    width: 250px;
+    z-index: -1;
+    background-color: red;
+    li {
+      font-size: 26px;
+    }
+  }
+  [octo-nav-panel] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+  [octo-nav-scrollable] {
+    overflow: auto;
+    height: 100%;
+  }
+  & > [octo-nav-page-content] {
+    &.show-nav {
+      transform: translate3D(250px, 0, 0);
+    }
+    background: #fff;
+    transition: transform 150ms cubic-bezier(.2, .3, .25, .9);
+    transition-duration: 250ms;
+  }
+}
