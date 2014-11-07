@@ -1,17 +1,51 @@
+@menuBgColor: #424242;
+@menuTextColor: #a8a8a8;
+@menuHeaderColor: #666;
+@menuHoverColor: #f5f5f5;
+@octoNavWidth: 250px;
+@octoNavFontSize: 18px;
+@octoNavSlideDuration: 250ms;
 [octo-nav] {
   [octo-nav-control] {
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 2;
+    z-index: 1;
     color: #fff;
   }
   & > [octo-nav-navigation] {
-    width: 250px;
+    width: @octoNavWidth;
     z-index: -1;
-    background-color: red;
-    li {
-      font-size: 26px;
+    background-color: @menuBgColor;
+    color: @menuTextColor;
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 10px 0;
+      & > li {
+        font-size: @octoNavFontSize;
+        & > a {
+          display: block;
+          padding: 10px;
+          &[octo-nav-link] {
+            color: @menuTextColor;
+            text-decoration: none;
+            &:hover {
+              color: @menuHoverColor;
+            }
+          }
+        }
+        &[octo-nav-divider],
+        &[octo-nav-header] {
+          border-top: 2px solid @menuHeaderColor;
+          color: @menuHeaderColor;
+        }
+        &[octo-nav-header] {
+          font-size: @octoNavFontSize - 6px;
+          text-transform:uppercase;
+          margin: 40px (@octoNavWidth / 5px) 0 8px;
+        }
+      }
     }
   }
   [octo-nav-panel] {
@@ -25,11 +59,11 @@
     height: 100%;
   }
   & > [octo-nav-page-content] {
+    box-shadow: -10px 0px 20px #222;
     &.show-nav {
-      transform: translate3D(250px, 0, 0);
+      transform: translate3D(@octoNavWidth, 0, 0);
     }
     background: #fff;
-    transition: transform 150ms cubic-bezier(.2, .3, .25, .9);
-    transition-duration: 250ms;
+    transition-duration: @octoNavSlideDuration;
   }
 }

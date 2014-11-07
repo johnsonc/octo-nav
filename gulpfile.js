@@ -5,16 +5,25 @@ var gulp = require('gulp'),
 	less = require('gulp-less'),
 	watch = require('gulp-watch'),
 	prefix = require('gulp-autoprefixer'),
+	uglify = require('gulp-uglify'),
+	rename = require('gulp-rename'),
+	minify = require('gulp-minify-css'),
 	sources = {
 		jade: 'src/jade/**/*.jade',
 		docs: "src/jade/*.jade",
+		javascript: 'src/javascript/**/*.js',
 		less: "src/less/**/*.less",
-		overwatch: "./out/**/*.*"
+		overwatch: "./out/**/*.*",
+		distribute: [
+			'out/js/**/*.js',
+			'out/css/**/*.css'
+		]
 	},
 	destinations = {
 		js: "out/js/",
 		docs: "out/",
-		css: "out/css/"
+		css: "out/css/",
+		distribute: 'dist/'
 	};
 /*SERVER TASK*/
 gulp.task('reload', function(event) {
@@ -31,6 +40,18 @@ gulp.task('serve', function(event) {
 	// sets up a livereload that watches for any changes in the root
 	gulp.watch(sources.overwatch, ['reload']);
 });
+gulp.task('js:publish', function(event) {
+	return gulp.src(sources.javascript)
+		.pipe(gulp.dest(destinations.js))
+		.pipe(uglify())
+		.pipe(rename({
+			suffix: '.min'
+		}))
+		.pipe(gulp.dest(destinations.js));
+});
+gulp.task('js:watch', function(event) {
+	gulp.watch(sources.javascript, ['js:publish']);
+});
 /*LESS TASK*/
 gulp.task('less:compile', function(event) {
 	return gulp.src(sources.less)
@@ -42,6 +63,11 @@ gulp.task('less:compile', function(event) {
 			'Android 3',
 			'Android 4'
 		]))
+		.pipe(gulp.dest(destinations.css))
+		.pipe(minify())
+		.pipe(rename({
+			suffix: '.min'
+		}))
 		.pipe(gulp.dest(destinations.css));
 });
 /*LESS WATCH TASK FOR DEVELOPMENT*/
@@ -59,5 +85,15 @@ gulp.task('jade:compile', function(event) {
 gulp.task('jade:watch', function(event){
 	gulp.watch(sources.jade, ['jade:compile']);
 });
+gulp.task('build:complete', ['jade:compile', 'js:publish', 'less:compile']);
+gulp.task('distribute', ['build:complete'], function(event) {
+	return gulp.src(sources.distribute)
+		.pipe(gulp.dest(destinations.distribute));
+});
 /*DEFAULT TASK*/
-gulp.task('default', ["serve", "jade:watch", "less:watch"]);
+gulp.task('default', [
+	'serve',
+	'jade:watch',
+	'less:watch',
+	'js:watch'
+]);
