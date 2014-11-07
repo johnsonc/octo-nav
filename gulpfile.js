@@ -15,8 +15,8 @@ var gulp = require('gulp'),
 		less: "src/less/**/*.less",
 		overwatch: "./out/**/*.*",
 		distribute: [
-			'out/js/**/*.js',
-			'out/css/**/*.css'
+			'out/js/**/octo*.js',
+			'out/css/**/octo*.css'
 		]
 	},
 	destinations = {
